@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';  // OnInit should be imported
+import { Produit } from '../model/produit.model';
+import { ProduitService } from '../services/produit.service';
 
 @Component({
   selector: 'app-produits',
@@ -6,13 +8,22 @@ import { Component, OnInit } from '@angular/core';  // OnInit should be imported
   styleUrls: ['./produits.component.css']  // Correct property name
 })
 export class ProduitsComponent implements OnInit {
-  produits: string[];
-
-  constructor() {
-    this.produits = ["PC Asus", "Imprimante Epson", "Tablette Samsung"];
-  }
+  
+ produits?: Produit[];
+ 
+  constructor( private produitService : ProduitService) {
+    //this.produits = [];
+    }
 
   ngOnInit(): void {
-    // You can add initialization logic here if needed
-  }
+    this.produits = this.produitService.listeProduits(); // Add parentheses to call the method
+    console.log(this.produits);  // Log the products to ensure they are loaded
 }
+supprimerProduit(prod : Produit){
+  //console.log(prod);
+  let conf = confirm("Etes-vous sûr ?");
+   if (conf)
+  this.produitService.supprimerProduit(prod);
+}
+  }
+
